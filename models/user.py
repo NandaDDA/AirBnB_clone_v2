@@ -1,11 +1,17 @@
 #!/usr/bin/python3
-"""This module defines a class User"""
-from models.base_model import BaseModel
+"""
+initialize the models package
+"""
+
+from os import getenv
 
 
-class User(BaseModel):
-    """This class defines a user by various attributes"""
-    email = ''
-    password = ''
-    first_name = ''
-    last_name = ''
+storage_t = getenv("HBNB_TYPE_STORAGE")
+
+if storage_t == "db":
+    from models.engine.db_storage import DBStorage
+    storage = DBStorage()
+else:
+    from models.engine.file_storage import FileStorage
+    storage = FileStorage()
+storage.reload()
